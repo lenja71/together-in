@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Together in Death</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Beide Screens */
+        .screen {
+            position: fixed;
+            inset: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* SCREEN 1
+           Schwarzer Hintergrund + weißer Text */
+        #screen1 {
+            background: black;
+            color: white;
+        }
+
+        /* SCREEN 2
+           Weißer Hintergrund + schwarzer Text */
+        #screen2 {
+            background: white;
+            color: black;
+            display: none;
+        }
+
+        /* Text auf Screen 1 */
+        #text {
+            font-size: clamp(45px, 8vw, 120px);
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* Text auf Screen 2 */
+        #text2 {
+            font-size: clamp(40px, 7vw, 110px);
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        /* Kleiner Fade-Effekt */
+        .fade {
+            animation: fadeIn 0.25s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========================= -->
+    <!-- SCREEN 1 -->
+    <!-- ========================= -->
+
+    <div id="screen1" class="screen">
+        <div id="text"></div>
+    </div>
+
+
+    <!-- ========================= -->
+    <!-- SCREEN 2 -->
+    <!-- ========================= -->
+
+    <div id="screen2" class="screen">
+        <div id="text2"></div>
+    </div>
+
+
+    <script>
+
+        const screen1 = document.getElementById("screen1");
+        const screen2 = document.getElementById("screen2");
+
+        const text = document.getElementById("text");
+        const text2 = document.getElementById("text2");
+
+
+        /* =========================
+           SCREEN 1
+           ========================= */
+
+        const firstWords = [
+            {
+                word: "Together",
+                delay: 0
+            },
+            {
+                word: "in",
+                delay: 1000
+            },
+            {
+                word: "death",
+                delay: 2000
+            },
+            {
+                word: "woah",
+                delay: 3000
+            },
+            {
+                word: "woah",
+                delay: 3800
+            },
+            {
+                word: "woooah",
+                delay: 4600
+            }
+        ];
+
+
+        firstWords.forEach(item => {
+
+            setTimeout(() => {
+
+                // Animation zurücksetzen
+                text.classList.remove("fade");
+
+                // Browser zwingt dazu,
+                // die Animation neu zu starten
+                void text.offsetWidth;
+
+                // Neues Wort anzeigen
+                text.textContent = item.word;
+
+                // Fade Animation starten
+                text.classList.add("fade");
+
+            }, item.delay);
+
+        });
+
+
+        /*
+            "woooah" erscheint bei 4,6 Sekunden.
+
+            Danach bleiben wir noch 1 Sekunde
+            auf Screen 1.
+
+            Bei 5,6 Sekunden wechseln wir
+            zu Screen 2.
+        */
+
+        setTimeout(() => {
+
+            screen1.style.display = "none";
+            screen2.style.display = "flex";
+
+            startSecondScreen();
+
+        }, 5600);
+
+
+
+        /* =========================
+           SCREEN 2
+           ========================= */
+
+        function startSecondScreen() {
+
+            const secondWords = [
+                "Won't",
+                "you",
+                "die",
+                "tonight",
+                "for",
+                "love ?"
+            ];
+
+
+            secondWords.forEach((word, index) => {
+
+                setTimeout(() => {
+
+                    // Animation zurücksetzen
+                    text2.classList.remove("fade");
+
+                    // Animation neu starten
+                    void text2.offsetWidth;
+
+                    // Wort anzeigen
+                    text2.textContent = word;
+
+                    // Fade Animation starten
+                    text2.classList.add("fade");
+
+                }, index * 1000);
+
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>
